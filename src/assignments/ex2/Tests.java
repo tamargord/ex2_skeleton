@@ -191,14 +191,14 @@ class TestScell {
         public void testEdgeCases() {
             Ex2Sheet sheet = new Ex2Sheet(1, 1);
 
-            // Null and empty values
+
             sheet.set(0, 0, null);
             assertEquals(Ex2Utils.EMPTY_CELL, sheet.get(0, 0).getData());
 
             sheet.set(0, 0, "");
             assertEquals(Ex2Utils.EMPTY_CELL, sheet.get(0, 0).getData());
 
-            // Single-cell reference
+
             sheet.set(0, 0, "=A0");
             assertEquals(Ex2Utils.ERR_CYCLE, sheet.value(0, 0));
         }
