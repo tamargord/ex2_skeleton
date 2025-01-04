@@ -37,15 +37,15 @@ public class Ex2Sheet implements Sheet {
         if (!isIn(x, y)) return;
         if (value == null) value = "";
 
-        // 1) Numeric?
+
         if (SCell.isNumber(value)) {
             cells[x][y] = new SCell(value);
             return;
         }
 
-        // 2) Formula? (must start with '=')
+
         if (value.startsWith("=")) {
-            // Check if it's a valid formula. If not, store "ERR_FORM!"
+
             if (isProbablyValidFormula(value)) {
                 cells[x][y] = new SCell(value);
             } else {
@@ -54,20 +54,12 @@ public class Ex2Sheet implements Sheet {
             return;
         }
 
-        // 3) Otherwise, treat as text
+
         cells[x][y] = new SCell(value);
     }
 
-    /**
-     * A "quick" check for formula validity.
-     * You can customize or replace this with something more robust.
-     */
     private boolean isProbablyValidFormula(String val) {
-        // e.g. at minimum, we might just require "=..." to have something after '='
-        // and skip advanced checks if you like.
         if (val.length() < 2) return false;
-        // Optionally, do a lightweight parse or check parentheses, etc.
-        // For now, let's just say it's "valid" if it has at least 1 character after '='.
         return true;
     }
 
@@ -88,9 +80,6 @@ public class Ex2Sheet implements Sheet {
         return null;
     }
 
-    /**
-     * We do cycle detection at runtime. If we see a cycle, we return ERR_CYCLE!.
-     */
     @Override
     public String value(int x, int y) {
         boolean[][] visited = new boolean[width()][height()];
