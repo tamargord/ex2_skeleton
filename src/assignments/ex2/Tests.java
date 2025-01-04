@@ -106,8 +106,8 @@ class TestScell {
         @Test
         public void testSetAndGet() {
             Ex2Sheet sheet = new Ex2Sheet(3, 3);
-            sheet.set(0, 0, "42");
-            assertEquals("42", sheet.get(0, 0).getData());
+            sheet.set(0, 0, "42.0");
+            assertEquals("42.0", sheet.get(0, 0).getData());
 
             sheet.set(1, 1, "Hello");
             assertEquals("Hello", sheet.get(1, 1).getData());
@@ -169,7 +169,7 @@ class TestScell {
             Ex2Sheet loadedSheet = new Ex2Sheet(3, 3);
             loadedSheet.load(fileName);
 
-            assertEquals("5", loadedSheet.get(0, 0).getData());
+            assertEquals("5.0", loadedSheet.get(0, 0).getData());
             assertEquals("Hello", loadedSheet.get(1, 1).getData());
             assertEquals("=A1+B1", loadedSheet.get(2, 2).getData());
 

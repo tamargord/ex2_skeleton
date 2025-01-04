@@ -190,8 +190,6 @@ public class SCell implements Cell {
     }
 
 
-
-
     private static boolean countBrackets(String brackets) {
         return countBrackets(brackets, 0, 0, 0);
     }
@@ -293,21 +291,4 @@ public class SCell implements Cell {
         return minIndex;
     }
 
-    public static void main(String[] args) {
-        // Test cases
-        SCell cell1 = new SCell("5");
-        System.out.println("Cell1: " + cell1.getData() + " Type: " + cell1.getType());
-
-        SCell cell2 = new SCell("=2+3");
-        System.out.println("Cell2: " + cell2.getData() + " Type: " + cell2.getType() + " Computed: " + computeForm(cell2.getData()));
-
-        SCell cell3 = new SCell("hello");
-        System.out.println("Cell3: " + cell3.getData() + " Type: " + cell3.getType());
-
-        SCell cell4 = new SCell("=4*5-2/1");
-        System.out.println("Cell4: " + cell4.getData() + " Type: " + cell4.getType() + " Computed: " + computeForm(cell4.getData()));
-
-        SCell cell5 = new SCell("=(3+2)*(4-1)");
-        System.out.println("Cell5: " + cell5.getData() + " Type: " + cell5.getType() + " Computed: " + computeForm(cell5.getData()));
-    }
 }
