@@ -26,9 +26,26 @@ public class SCell implements Cell {
 
     @Override
     public void setData(String s) {
-        this.line = s;
+        normalizeToDoubleString(s);
         this.type = detectType(s);
     }
+
+    public void normalizeToDoubleString(String s) {
+        if (isNumber(s)) {
+            try {
+                // Cast to double and back to string to ensure decimal representation
+                double numericValue = Double.parseDouble(s);
+                this.line = String.valueOf(numericValue);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid number format: " + s);
+            }
+        } else {
+            // If not a number, simply assign the value
+            this.line = s;
+        }
+        this.type = detectType(this.line);
+    }
+
 
     @Override
     public String getData() {
@@ -46,7 +63,7 @@ public class SCell implements Cell {
     }
 
     private int detectType(String s) {
-        // If the string is null or empty, treat it as text (empty cell)
+
         if (s == null || s.isEmpty()) {
             return Ex2Utils.TEXT;
         }
@@ -75,7 +92,7 @@ public class SCell implements Cell {
         return !isNumber(text) && !isForm(text);
     }
 
-    // ---------------- SCell.java ----------------
+
     public static boolean isForm(String text) {
         if (text == null || text.isEmpty()) return false;
         if (!text.startsWith("=")) return false;
@@ -83,25 +100,25 @@ public class SCell implements Cell {
         if (expr.isEmpty()) return false;
 
         int pCount = 0;
-        boolean lastOp = true;  // track consecutive ops
+        boolean lastOp = true;
         String token = "";
 
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
-            // accumulate letters, digits, decimal point in 'token'
+
             if (Character.isLetterOrDigit(c) || c == '.') {
                 token += c;
             } else {
-                // once we hit an operator or bracket, validate the 'token'
+
                 if (!token.isEmpty()) {
                     if (!isValidToken(token)) return false;
                     token = "";
                     lastOp = false;
                 }
-                // handle the operator or bracket
+
                 switch (c) {
                     case '+', '-', '*', '/':
-                        if (lastOp) return false;   // e.g. "++" is invalid
+                        if (lastOp) return false;
                         lastOp = true;
                         break;
                     case '(':
@@ -114,32 +131,62 @@ public class SCell implements Cell {
                         lastOp = false;
                         break;
                     default:
-                        return false;  // invalid character
+                        return false;
                 }
             }
         }
 
-        // if there's a trailing token after the loop
+
         if (!token.isEmpty()) {
             if (!isValidToken(token)) return false;
         }
-        // matched parentheses?
+
         if (pCount != 0) return false;
 
         return true;
     }
 
-    // SCell.java
+
     private static boolean isValidToken(String token) {
-        if (token.matches("\\d+(\\.\\d+)?")) {
-            return true;
+        if (token == null || token.isEmpty()) return false;
+
+        int i = 0;
+        boolean hasDecimal = false;
+        while (i < token.length()) {
+            char c = token.charAt(i);
+            if (Character.isDigit(c)) {
+                i++;
+            } else if (c == '.') {
+                if (hasDecimal) return false;
+                hasDecimal = true;
+                i++;
+            } else {
+                break;
+            }
         }
-        // 2) Accept cell references (e.g. A0, B2, C10, AA9)
-        if (token.matches("[A-Z]+[0-9]{1,2}")) {
-            return true;
+        if (i == token.length()) return true;
+
+
+        i = 0;
+
+        while (i < token.length() && Character.isLetter(token.charAt(i))) {
+            char c = token.charAt(i);
+            if (c < 'A' || c > 'Z') return false;
+            i++;
         }
-        // 3) Otherwise, invalid
-        return false;
+
+        if (i == 0) return false;
+
+
+        int digitCount = 0;
+        while (i < token.length() && Character.isDigit(token.charAt(i))) {
+            digitCount++;
+            i++;
+        }
+
+        if (digitCount == 0 || digitCount > 2) return false;
+
+        return i == token.length();
     }
 
 
