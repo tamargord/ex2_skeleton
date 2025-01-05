@@ -11,11 +11,11 @@ it initializes a spreedsheet with width and height and creates it with default d
 - **`boolean isIn(int x, int y)`**
 - it checks if the given coordinates are within the bounds of the spreadsheet, if not it"ll return false.
 
-- **`int width()`**
+- **`int width()`**:
 - returns the number of columns.
 
-- **`int height()`**
-returns the number of rows.
+- **`int height()`**:
+-returns the number of rows.
 
 - **`void set(int x, int y, String value)`**:
 - it sets the value of the cell and stores numeric values directly, also validates formulas.
@@ -27,10 +27,10 @@ returns the number of rows.
 - it retrieves a cell object on a cell reference sring and uses the parseIndex method to convert it.
   
  - **`String value(int x, int y)`**:
-it returns the value of the cell at the coordinates and returns plain test of numeric values.
+-it returns the value of the cell at the coordinates and returns plain test of numeric values.
 
 - **`void eval()`**:
-  it iterates over the cells and evaluates their values.
+ - it iterates over the cells and evaluates their values.
  
 - **`String eval(int x, int y)`**:
 - it returns the values of a specific cell.
